@@ -142,36 +142,5 @@ Utilizing **Chart.js**, the application provides interactive graphs and charts t
 
 ![Chart Example](https://example.com/chart-example.png)
 
-## 🛠️ Contributing
 
-We welcome contributions to enhance the **Finance Manager**. If you have suggestions or improvements, please fork the repository and submit a pull request.
-
-### Steps to Contribute
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add some feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a pull request.
-
-## 📅 Releases
-
-You can find the latest releases of **Finance Manager** [here](https://github.com/dimitrisktp/Finance-Manager/releases). Download and execute the latest version to get all the new features and fixes.
-
-## 🤝 Support
-
-For any questions or support regarding **Finance Manager**, please create an issue in the repository. We will be glad to help you!
-
-## 🌐 Connect With Us
-
-- **Twitter**: [@FinanceManager](https://twitter.com/FinanceManager)
-- **Facebook**: [Finance Manager Page](https://facebook.com/FinanceManager)
-- **LinkedIn**: [Finance Manager Profile](https://linkedin.com/company/FinanceManager)
-
-## 📜 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-Thank you for checking out **Finance Manager**! We hope you find it useful for managing your finances effectively.
 ```
