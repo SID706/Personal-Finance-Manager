@@ -1,0 +1,69 @@
+# Base44 sandbox environment for the Finance Manager Flask + MongoDB app.
+#
+# Runs the app from the cloned source (bind mount + Flask dev server with the
+# reloader) so edits are visible in the preview without rebuilding images.
+# For normal/deployed use, see the repo's own Dockerfile and docker-compose.yml.
+services:
+  mongo:
+    image: mongo:6.0
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_DATABASE=finance_manager
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test:
+        ["CMD-SHELL", "mongosh --quiet --eval \"db.adminCommand('ping').ok\" | grep -q 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  web:
+    image: python:3.11-slim
+    working_dir: /app
+    # Dependencies are installed at startup (after the bind mount exists) so a
+    # requirements.txt change only needs a service restart, not an image build.
+    command:
+      - sh
+      - -ec
+      - >-
+        pip install --no-cache-dir --disable-pip-version-check -r requirements.txt &&
+        exec flask --app app:app run --host 0.0.0.0 --port 5000 --debug
+    restart: on-failure
+    ports:
+      - "3000:5000"
+    volumes:
+      - ./:/app
+      - pip_cache:/root/.cache/pip
+    env_file:
+      # Placeholders first, platform-delivered secrets last (they must win).
+      - path: ./.env.base44-defaults
+        required: true
+      - path: /run/base44/app.env
+        required: false
+    environment:
+      - BASE44_PREVIEW_MODE
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python -c "import urllib.request,sys;
+          sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:5000/', timeout=5).status == 200 else 1)"
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    labels:
+      base44.project: finance-manager
+      base44.kind: web
+      base44.port: "3000"
+
+volumes:
+  mongo_data:
+  pip_cache:

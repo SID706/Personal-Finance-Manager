@@ -1,0 +1,33 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "SECRET_KEY",
+      "description": "Flask session signing key. A development value was generated for this sandbox; set a long random value for any real deployment.",
+      "requiredAtBoot": false,
+      "generatedForDevelopment": true
+    },
+    {
+      "name": "RESEND_API_KEY",
+      "description": "Optional. Resend API key (https://resend.com/api-keys) used for welcome and notification emails. Without it the app runs normally but sends no email.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "ADMIN_SETUP_CODE",
+      "description": "Code required by /initialize-admin to create the first admin user. Sandbox placeholder 'dev-setup-code' lives in .env.base44-defaults; this value overrides it.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "ADMIN_PASSWORD",
+      "description": "Extra password required for admin-only actions (clear logs, toggle another user's admin flag). Sandbox placeholder 'admin-dev-password' lives in .env.base44-defaults; this value overrides it.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "MONGO_URI",
+      "description": "MongoDB connection string. Defaults to the local compose 'mongo' service; set a hosted MongoDB URI (e.g. Atlas) to use an external database.",
+      "requiredAtBoot": false
+    }
+  ]
+}
